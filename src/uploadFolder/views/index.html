@@ -1,0 +1,23 @@
+<!DOCTYPE>
+<html lang = "en">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <form
+            id="form"
+            class="form-inline"
+            enctype="multipart/form-data"
+            method="post"
+            action="/upload">
+            <input id = "upload"
+                type = "file"
+                name = "files[]"
+                webkitdirectory
+                multiple
+                class="btn btn-default"/>
+             <input type="submit" value="upload" id="submit" class="btn btn-default" />
+        </form>
+    </body>
+</html>
