@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <link rel="stylesheet" href="/css/webuploader.css" type="text/css">
+    </head>
+    <body>
+        <!-- 表单中enctype="multipart/form-data"的意思，是设置表单的MIME编码。默认情况，这个编码格式是application/x-www-form-urlencoded，
+        不能用于文件上传；只有使用了multipart/form-data，才能完整的传递文件数据，进行下面的操作.
+        enctype="multipart/form-data"是上传二进制数据; form里面的input的值以2进制的方式传过去 -->
+        <form id="form" enctype="multipart/form-data" method="post">
+            <input id="upload" type="file" name="files[]" webkitdirectory multiple />
+            <input type="button" value="upload" id="submit" class="btn btn-default">
+        </form>
+        <!-- <script src="./lib/jquery.js"></script> -->
+        <script
+                src="http://code.jquery.com/jquery-3.2.1.min.js"
+                integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+                crossorigin="anonymous">
+        </script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/stream.js"></script>
+        <script>
+            var socket = io.connect('/caraxiong')
+
+            $("#submit").click(function(e){
+                var files = document.getElementById('upload').files
+                console.log(files)
+
+                for (var i = 0; i < files.length; i++) {
+                    var stream = ss.createStream();
+
+                    //讲普通的socket--》流的特性的socket
+                    ss(socket).emit('upload', stream, {
+                        size: files[i].size,
+                        webkitRelativePath: files[i].webkitRelativePath,
+                        path: files[i].webkitRelativePath,
+                        type: files[i].type,
+                        lastModified: files[i].lastModified
+                    })
+                    ss.createBlobReadStream(files[i]).pipe(stream);
+                }
+
+                socket.on('progress', function (data) {
+                    console.log(data)
+                    //filename ,percent
+                })
+            })
+        </script>
+    </body>
+</html>

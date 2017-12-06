@@ -23,6 +23,8 @@
     "cors": "^2.8.4",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
-    "shelljs": "^0.7.8"
+    "shelljs": "^0.7.8",
+    "socket.io": "^2.0.4",
+    "socket.io-stream": "^0.9.1"
   }
 }
